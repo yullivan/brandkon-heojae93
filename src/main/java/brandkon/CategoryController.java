@@ -16,7 +16,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-
+    //모든 카테고리 목록조회
     @GetMapping
     public List<CategoryDTO> getAllCategories() {
         return categoryService.getAllCategories();
