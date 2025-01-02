@@ -1,19 +1,18 @@
 package brandkon;
 
 public class ProductDTO {
-
     private Long id;
-    private String brandName;
-    private String productName;
-    private int price;
-    private String imageUrl;
+    private String productName; // 타입: String
+    private int price; // 타입: int
+    private String imageUrl; // 타입: String
+    private String brandName; // 타입: String
 
-    public ProductDTO(Long id, String brandName, String productName, int price, String imageUrl) {
+    public ProductDTO(Long id, String productName, int price, String imageUrl, String brandName) {
         this.id = id;
-        this.brandName = brandName;
         this.productName = productName;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.brandName = brandName;
     }
 
     public Long getId() {
