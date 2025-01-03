@@ -1,25 +1,15 @@
-package brandkon;
+package brandkon.brand;
 
-import jakarta.persistence.*;
-
-@Entity
-public class Brand {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BrandDto {
     private Long id;
-
     private String name;
     private String imageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
 
-    public Brand(Long id, String name, String imageUrl, Category category) {
+    public BrandDto(Long id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
-        this.category = category;
     }
 
     public Long getId() {
@@ -44,13 +34,5 @@ public class Brand {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 }

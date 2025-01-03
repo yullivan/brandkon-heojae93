@@ -1,4 +1,4 @@
-package brandkon;
+package brandkon.product;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

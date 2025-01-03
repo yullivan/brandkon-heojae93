@@ -1,4 +1,4 @@
-package brandkon;
+package brandkon.product;
 
 public class ProductDTO {
     private Long id;

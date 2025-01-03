@@ -1,5 +1,6 @@
-package brandkon;
+package brandkon.product;
 
+import brandkon.brand.Brand;
 import jakarta.persistence.*;
 
 @Entity

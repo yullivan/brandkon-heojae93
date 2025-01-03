@@ -1,6 +1,6 @@
-package brandkon;
+package brandkon.product;
 
-import brandkon.BrandDto;
+import brandkon.brand.BrandDto;
 
 public class ProductDetailDTO {
     private Long productId;
@@ -17,7 +17,7 @@ public class ProductDetailDTO {
         this.expirationDays = expirationDays;
     }
 
-    // Getters and Setters
+
     public Long getProductId() {
         return productId;
     }

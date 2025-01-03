@@ -1,14 +1,15 @@
-package brandkon;
+package brandkon.category;
 
-public class BrandDto {
+public class CategoryDTO {
     private Long id;
     private String name;
+    private String slug;
     private String imageUrl;
 
-
-    public BrandDto(Long id, String name, String imageUrl) {
+    public CategoryDTO(Long id, String name, String slug, String imageUrl) {
         this.id = id;
         this.name = name;
+        this.slug = slug;
         this.imageUrl = imageUrl;
     }
 
@@ -26,6 +27,14 @@ public class BrandDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getImageUrl() {
