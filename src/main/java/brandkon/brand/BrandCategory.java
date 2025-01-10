@@ -1,13 +1,15 @@
-package brandkon.category;
+package brandkon.brand;
 
 
-import brandkon.brand.Brand;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import brandkon.category.Category;
+import jakarta.persistence.*;
 
 @Entity
-public class CategoryBrand {
+public class BrandCategory {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

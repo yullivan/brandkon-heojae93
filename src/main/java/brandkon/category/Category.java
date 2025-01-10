@@ -1,14 +1,21 @@
 package brandkon.category;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import brandkon.brand.BrandCategory;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +24,9 @@ public class Category {
     private String slug;
     private String imageUrl;
 
-    public Category(Long id, String name, String slug, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.slug = slug;
-        this.imageUrl = imageUrl;
-    }
+    @OneToMany(mappedBy = "category")
+    private List<BrandCategory> brandCategories = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -56,4 +60,11 @@ public class Category {
         this.imageUrl = imageUrl;
     }
 
+    public List<BrandCategory> getBrandCategories() {
+        return brandCategories;
+    }
+
+    public void setBrandCategories(List<BrandCategory> brandCategories) {
+        this.brandCategories = brandCategories;
+    }
 }

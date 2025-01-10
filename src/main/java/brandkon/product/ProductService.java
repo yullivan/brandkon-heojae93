@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class ProductService {
@@ -16,64 +17,63 @@ public class ProductService {
     private ProductRepository productRepository;
 
 
-    //모든 상품 목록 조회 , 리턴(상품목록)
+    //전체 상품 목록 조회 / 리턴 상품목록
     public List<ProductDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        List<ProductDTO> productDTOs = new ArrayList<>();
-        for (Product product : products) {
-            productDTOs.add(new ProductDTO(
-                    product.getId(),
-                    product.getProductName(),
-                    product.getPrice(),
-                    product.getImageUrl(),
-                    product.getBrand().getName()
-            ));
-        }
-        return productDTOs;
+
+        return productRepository.findAll().stream()
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getImageUrl(),
+                        product.getBrand().getName()
+                )).toList();
     }
-    //특정 목록에 있는 상품 목록조회, @param(브랜드 고유 Id) , 리턴(해당 브랜드의 상품목록)
+    //특정 브랜드의 상품 목록을 조회 / 리턴 브랜드 상품목록
     public List<ProductDTO> getProductsByBrand(Long brandId) {
-        List<Product> products = productRepository.findByBrand_Id(brandId);
-        List<ProductDTO> productDTOs = new ArrayList<>();
-        for (Product product : products) {
-            productDTOs.add(new ProductDTO(
-                    product.getId(),
-                    product.getProductName(),
-                    product.getPrice(),
-                    product.getImageUrl(),
-                    product.getBrand().getName()
-            ));
-        }
-        return productDTOs;
+        return productRepository.findByBrandId(brandId).stream()
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getImageUrl(),
+                        product.getBrand().getName()
+                )).toList();
     }
 
 
     //인기 상품 목록 조회(최대 5개) @param(카테고리 Id, 브랜드 Id) / 리턴(인기상품목록)
     public List<ProductDTO> getPopularProducts(Long categoryId, Long brandId) {
+        // 모든 상품 조회
         List<Product> products = productRepository.findAll();
-        List<ProductDTO> popularProducts = new ArrayList<>();
-        int count = 0;
 
-        for (Product product : products) {
-            if (categoryId != null && !product.getBrand().getCategory().getId().equals(categoryId)) {
-                continue;
-            }
-            if (brandId != null && !product.getBrand().getId().equals(brandId)) {
-                continue;
-            }
-            popularProducts.add(new ProductDTO(
-                    product.getId(),
-                    product.getProductName(),
-                    product.getPrice(),
-                    product.getImageUrl(),
-                    product.getBrand().getName()
-            ));
-            count++;
-            if (count == 5) {
-                break;
-            }
+        // 조건 필터링
+        Stream<Product> filteredProducts = products.stream();
+
+        if (categoryId != null) {
+            filteredProducts = filteredProducts.filter(product ->
+                    product.getBrand().getBrandCategories().stream()
+                            .anyMatch(brandCategory -> brandCategory.getCategory().getId().equals(categoryId))
+            );
         }
-        return popularProducts;
+
+        if (brandId != null) {
+            filteredProducts = filteredProducts.filter(product ->
+                    product.getBrand().getId().equals(brandId)
+            );
+        }
+
+        // 최대 5개로 제한
+        return filteredProducts
+                .limit(5)
+                .map(product -> new ProductDTO(
+                        product.getId(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getImageUrl(),
+                        product.getBrand().getName()
+                )).toList();
+
     }
 
 

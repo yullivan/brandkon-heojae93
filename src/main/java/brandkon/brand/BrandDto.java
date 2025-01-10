@@ -5,12 +5,12 @@ public class BrandDto {
     private String name;
     private String imageUrl;
 
-
     public BrandDto(Long id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
     }
+
 
     public Long getId() {
         return id;
